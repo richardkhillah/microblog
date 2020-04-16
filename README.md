@@ -36,3 +36,7 @@ cat "FLASK_APP=microblog.py">.flaskenv
 
 6. Install flask package WTF
 'pip install flask-wtf'
+
+7. Install Flask SQLAlchemy and migrate packages
+'pip install flask-sqlalchemy'
+'pip install flask-migrate'
