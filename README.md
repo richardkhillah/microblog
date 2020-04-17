@@ -40,3 +40,4 @@ cat "FLASK_APP=microblog.py">.flaskenv
 7. Install Flask SQLAlchemy and migrate packages
 'pip install flask-sqlalchemy'
 'pip install flask-migrate'
+'pip install flask-dotenv'
