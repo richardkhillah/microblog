@@ -45,3 +45,4 @@ cat "FLASK_APP=microblog.py">.flaskenv
 'pip install flask-mail'
 'pip install pyjwt'
 'pip install flask-bootstrap'
+'pip install flask-moment'
