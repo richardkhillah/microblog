@@ -42,3 +42,5 @@ cat "FLASK_APP=microblog.py">.flaskenv
 'pip install flask-migrate'
 'pip install flask-dotenv'
 'pip install flask-login'
+'pip install flask-mail'
+'pip install pyjwt'
