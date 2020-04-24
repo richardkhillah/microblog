@@ -1,3 +1,5 @@
+# microblog
+## Setting things up
 To set up virtual environment:
 1. create a project directory then change directory:
 
@@ -32,14 +34,14 @@ This command will start a SQLAlchemy server to run your application with.
 
 <!-- TODO: add directions for password reset by e-mail -->
 
-##For L18n and L10n language support:
+## For L18n and L10n language support:
 1. To support a new language:
 
 `flask translate init [LANG]`
 
 2. Translate the .po file that is generated with the `init` command. [poedit](https://poedit.net/) is a popular open-source translation application.
 
-3. Compile the .po translations using the following command:
+3. Compile the .po translations:
 
 `flask translate compile`
 
@@ -47,7 +49,6 @@ If you want to check to see that the translations worked, you have two options:
   1. Change the language setting of your browser, or
   2. Change the get_locale() method in `app/__init__.py` file to return es (`return es`)
 
-###Updating an existing translation
-1. Run the update procedure:
+1. Update:
 
 `flask translate update`
