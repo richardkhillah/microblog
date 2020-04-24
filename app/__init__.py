@@ -14,6 +14,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
 from flask_babel import Babel
+from flask_babel import lazy_gettext as _l
 
 app = Flask(__name__)
 app.config.from_object(Config)
