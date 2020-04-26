@@ -5,6 +5,10 @@
         {{ post.author.username }}
       <img src="{{ post.author.avatar(36)}}" alt="small avatar">
     </a>
+    {% if post.language and post.language != g.locale %}
+    <br><br>
+    <a href="#">{{ _('Translate') }}</a>
+    {% endif %}
   </td>
   <td>
     {% set user_link %}
