@@ -25,3 +25,15 @@ class PostForm(FlaskForm):
     post = TextAreaField(_l('Say something'), validators=[DataRequired(),
         Length(min=1, max=140)])
     submit = SubmitField(_l('Submit'))
+
+from flask import request
+
+class SearchForm(FlaskForm):
+    q = StringField(_l('Search'), validators=[DataRequired()])
+
+    def __init__(self, *args, **kwargs):
+        if 'formdata' not in kwargs:
+            kwargs['formdata'] = request.args
+        if 'csrf_enabled' not in kwargs:
+            kwargs['csrf_enabled'] = False
+        super(SearchForm, self).__init__(*args, **kwargs)
