@@ -4,6 +4,7 @@ from datetime import datetime
 from app import db, login
 from hashlib import md5
 
+import json
 from time import time
 import jwt
 
@@ -36,11 +37,11 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
-    followed = db.relationship(
-        'User', secondary=followers,
-        primaryjoin=(followers.c.follower_id == id),
-        secondaryjoin=(followers.c.followed_id == id),
-        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+    followed = db.relationship('User', secondary=followers,
+                                primaryjoin=(followers.c.follower_id == id),
+                                secondaryjoin=(followers.c.followed_id == id),
+                                backref=db.backref('followers', lazy='dynamic'),
+                                lazy='dynamic')
 
     messages_sent = db.relationship('Message',
                                     foreign_keys='Message.sender_id',
@@ -50,10 +51,19 @@ class User(UserMixin, db.Model):
                                         backref='recipient', lazy='dynamic')
     last_message_read_time = db.Column(db.DateTime)
 
+    notifications = db.relationship('Notification',
+                                    backref='user', lazy='dynamic')
+
     def new_messages(self):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
+
+    def add_notification(self, name, data):
+        self.notifications.filter_by(name=name).delete()
+        n = Notification(name=name, payload_json=json.dumps(data), user=self)
+        db.session.add(n)
+        return n
 
     def follow(self, user):
         if not self.is_following(user):
@@ -158,3 +168,13 @@ class Message(db.Model):
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    timestamp = db.Column(db.Float, index=True, default=time)
+    payload_json = db.Column(db.Text)
+
+    def get_data(self):
+        return json.loads(str(self.payload_json))
