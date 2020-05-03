@@ -26,13 +26,45 @@ source venv/bin/activate
 
 Note: Moving forward, ALL commands should be issued from within the virtual environment created in step 2. Fresh command lines should now start with `(venv)`. For the sake of convenience, I will leave the prompt heading off and simply give commands that can be easily be copied and pasted.
 
-5. Run the flask project.
+
+This command will start a SQLAlchemy server to run your application with.
+5. There are several services that must be setup before the project can run in it's full glory. Microblog is configured to read from a `.env` file, so this is where we can store several environment variables if they are not already set in your user environment. In the root folder of this project with run
+`touch .env`
+
+then add the following:
+```
+<!-- contents of .env -->
+SECRET_KEY=a-really-long-and-unique-key-that-nobody-knows
+MAIL_SERVER=localhost
+MAIL_PORT=8025
+MAIL_USE_TLS=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MS_TRANSLATOR_KEY=<your-translator-key-here>
+ELASTICSEARCH_URL=http://localhost:9200
+```
+
+ For each of the following services, open a new terminal tab (tabs are more convenient for grouping) and run the command:
+#### SMTP debugging server:
+`python3 -m smtpd -n -c DebuggingServer localhost:8025`
+
+Note: this runs a SMTP (Simple Mail Transport Protocol) server on localhost 8025.
+
+#### Elasticsearch
+`elasticsearch`
+
+#### Redis Server
+`redis-server`
+
+#### Redis worker
+`rq worker microblog-tasks`
+<!-- TODO: add directions for password reset by e-mail -->
+
+6. Run the flask project.
 
 `flask run`
 
-This command will start a SQLAlchemy server to run your application with.
-
-<!-- TODO: add directions for password reset by e-mail -->
+7. Open an internet browser and go to `http://localhost:5000`
 
 ## For L18n and L10n language support:
 1. To support a new language:
