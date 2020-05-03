@@ -5,3 +5,4 @@ venv/*
 logs
 app.db
 .env
+dump.rdb
