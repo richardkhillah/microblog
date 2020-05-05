@@ -101,7 +101,6 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def get_task_in_progress(self, name):
         return Task.query.filter_by(name=name, user=self, complete=False).first()
 
-
     def new_messages(self):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
